@@ -12,8 +12,6 @@ function Get-RIssues {
         [string] $status_id = $null
     )
     begin {
-        $uri = "{0}issues.json" -f $script:RedmineBaseUri
-
         $query = @();
         if (-not [string]::IsNullOrEmpty($issue_id)) {
             $query += "issue_id={0}" -f $issue_id
@@ -41,14 +39,10 @@ function Get-RIssues {
                 $tempQuery += "offset={0}" -f $offset
             }
 
-            $tempUri = $uri
-            if ($tempQuery.Length -gt 0) {
-                $tempUri += ("?" + $tempQuery -join "&")
-            }
-
-            $response = Invoke-WebRequest -Uri $tempUri -Method GET -Credential $script:RedmineCredentials
+            $tempUri = Get-RUri -query $tempQuery -endpoint "issues.json"
+            $response = Invoke-WebRequest -Uri $tempUri -Method GET -Credential $script:RedmineCredentials -Headers $script:RedmineInvokeHeaders
             if ( $response.StatusCode -eq 200) {
-                $lastResponse = ($response | ConvertFrom-Json)
+                $lastResponse = ($response.Content | ConvertFrom-Json)
                 $lastResponse.issues
             }
             $offset += $lastResponse.limit

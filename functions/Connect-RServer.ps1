@@ -6,7 +6,7 @@ function Connect-RServer {
     )
 
     try {
-        $response = Invoke-RestMethod -Uri ("{0}/users.json?name={1}" -f $uri, $credential.UserName)  -Credential $credential
+        $response = Invoke-RestMethod -Uri ("{0}/users.json?name={1}" -f $uri, $credential.UserName) -Credential $credential
         $script:RedmineBaseUri = $uri
         $script:RedmineCredentials = $credential
         return $true
