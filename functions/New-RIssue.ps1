@@ -1,15 +1,15 @@
 function New-RIssue {
     param (
         [Parameter(Mandatory = $true)]
-        [string] $subject = $null,
+        [string] $subject,
         [Parameter(Mandatory = $true)]
-        [string] $description = $null,
+        [string] $description,
         [Parameter(Mandatory = $true)]
-        [string] $project_id = $null,
+        [string] $project_id,
         [Parameter(Mandatory = $true)]
-        [string] $state_id = $null,
+        [string] $state_id,
         [Parameter(Mandatory = $true)]
-        [string] $tracker_id = $null
+        [string] $tracker_id
     )
     begin {
         $body = @{};
